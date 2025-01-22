@@ -14,13 +14,5 @@ const Header = () => {
     </div>
   )
 }
-  Header.defaultProps = {
-    title: 'To Do List',
-  }
-
-  Header.propTypes = {
-    title: PropTypes.string,
-  }
-
 
 export default Header;

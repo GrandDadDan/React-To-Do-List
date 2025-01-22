@@ -1,11 +1,9 @@
-
-import { useState } from 'react'
-import React from 'react'
-import Header from './components/Header'
-import Tasks from './components/Tasks'
+import { useState } from "react";
+import React from "react";
+import Header from "./components/Header";
+import Tasks from "./components/Tasks";
 // import Button from './components/Button'
-import './styles.css'
-import Button from './components/Button'
+import "./styles.css";
 
 const App = () => {
   const [tasks, setTasks] = useState([
@@ -27,13 +25,23 @@ const App = () => {
       day: "Feb 7th at 9:00am",
       reminder: false,
     },
-  ])
+  ]);
+
+  // Delete Task
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
   return (
-    <div className='container'>
-      <Header className= "header"/>
-      <Tasks tasks={tasks}/>
+    <div className="container">
+      <Header className="header" />
+      {tasks.length > 0 ? (
+        <Tasks tasks={tasks} onDelete={deleteTask} />
+      ) : (
+        <h3 style={{ color: "white" }}>No more tasks left!</h3>
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default App;
