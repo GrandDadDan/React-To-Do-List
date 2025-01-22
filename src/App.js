@@ -2,10 +2,14 @@ import { useState } from "react";
 import React from "react";
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
+import AddTask from "./components/AddTask";
+
+
 // import Button from './components/Button'
 import "./styles.css";
 
 const App = () => {
+  const [showAddTask, setShowAddTask] = useState(false)
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -32,11 +36,24 @@ const App = () => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
+  // Toggle Reminder
+  const toggleReminder = (id) => {
+    setTasks(tasks.map((task) => task.id === id ? {...task, reminder : !task.reminder} : task))
+  }
+
+  // AddTask
+  const addTask = (task) => {
+    const id = Math.floor(Math.random() * 10000) +1
+    const newTask = {id, ...task}
+    setTasks([...tasks, newTask])
+  }
+
   return (
     <div className="container">
-      <Header className="header" />
+      <Header onAdd= {() => setShowAddTask(!showAddTask)} showAdd= {showAddTask} className="header" />
+      {showAddTask && <AddTask  onAdd = {addTask}/>}
       {tasks.length > 0 ? (
-        <Tasks tasks={tasks} onDelete={deleteTask} />
+        <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder}/>
       ) : (
         <h3 style={{ color: "white" }}>No more tasks left!</h3>
       )}
